@@ -10,6 +10,7 @@ const KAMPUS : String = "https://www.sodexo.fi/ruokalistat/output/weekly_json/10
 @export var haetaan_l : Label
 @export var frami_b : Button
 @export var kampus_b : Button
+@export var lang_b : Button
 
 #var ruokalista : Dictionary
 var tänään_on : Dictionary
@@ -32,7 +33,16 @@ func _ready() -> void:
 	
 	frami_b.pressed.connect(hae_ja_tee_lista.bind(FRAMI))
 	kampus_b.pressed.connect(hae_ja_tee_lista.bind(KAMPUS))
-	
+	lang_b.pressed.connect(func() -> void:
+		if lang_b.text == "FI":
+			Settings.language = "EN"
+			lang_b.text = "EN"
+		else:
+			Settings.language = "FI"
+			lang_b.text = "FI"
+			
+		hae_ja_tee_lista(FRAMI)
+			)
 	
 	hae_ja_tee_lista(FRAMI)
 

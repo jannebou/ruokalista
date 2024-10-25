@@ -11,6 +11,7 @@ class_name Lista
 @export var keitto_l : Label
 @export var patonki_l : Label
 @export var jälkiruoka_l : Label
+@export var lisätieto_l : RichTextLabel
 
 var lisätiedot : Dictionary
 
@@ -18,11 +19,16 @@ func _ready() -> void:
 	muuta_ruokalistan_näkyvyys()
 		
 	header_b.pressed.connect(muuta_ruokalistan_näkyvyys)
+	
 	lisätiedot_b.pressed.connect(näytä_lisätiedot)
 
 func setup(lista : Dictionary, open : bool) -> void:
-	header_b.text = "%s \n %s" %  [lista.date, lista.courses["2"].price]
+	#TODO onko frami vai kampus
+	#header_b.text = "%s \n %s" %  [lista.date, lista.courses["2"].price]
+	header_b.text = "%s"  %  lista.date
+	
 	lisätiedot = lista
+	
 	match Settings.language:
 		"FI":
 			if lista.courses.has("1"):
@@ -33,12 +39,14 @@ func setup(lista : Dictionary, open : bool) -> void:
 
 			if lista.courses.has("3"):
 				keitto_l.set_text(lista.courses["3"].title_fi)
-				
+			
 			if lista.courses.has("4"):
 				patonki_l.set_text(lista.courses["4"].title_fi)
 				
 			if lista.courses.has("5"):
 				jälkiruoka_l.set_text(lista.courses["5"].title_fi)
+			
+				
 
 		"EN":
 			if lista.courses.has("1"):
@@ -60,9 +68,16 @@ func setup(lista : Dictionary, open : bool) -> void:
 		muuta_ruokalistan_näkyvyys()
 	
 func näytä_lisätiedot() -> void:
-	print(lisätiedot.courses.properties)
-	
-	
+	if lisätieto_l.text != "":
+		lisätieto_l.text = ""
+	else:
+		for i in lisätiedot.courses:
+			if lisätiedot.courses[i].additionalDietInfo.has("allergens"):
+				lisätieto_l.text += "[b]"+lisätiedot.courses[i].title_fi+"[/b]" + "\n"
+				lisätieto_l.text += lisätiedot.courses[i].additionalDietInfo.allergens+"\n"
+
+
+
 	
 func muuta_ruokalistan_näkyvyys() -> void:
 	if header_b.is_inside_tree():
@@ -70,3 +85,4 @@ func muuta_ruokalistan_näkyvyys() -> void:
 		
 	for i : Control in visibility_list:
 		i.visible = !i.visible
+	
