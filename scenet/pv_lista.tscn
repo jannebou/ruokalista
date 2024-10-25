@@ -35,8 +35,7 @@ patonki_l = NodePath("patonki/VBoxContainer/patonki")
 [node name="header" type="Button" parent="."]
 layout_mode = 2
 theme = ExtResource("2_audni")
-theme_override_fonts/font = ExtResource("2_ljvtt")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "nappi"
 
 [node name="pääruoka" type="MarginContainer" parent="."]
@@ -154,7 +153,6 @@ label_settings = ExtResource("3_768vv")
 [node name="jälkkäri" type="Label" parent="jälkiruoka/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
 text = "Ei tarjolla"
 label_settings = ExtResource("4_k4o4h")
 vertical_alignment = 1
@@ -163,6 +161,7 @@ autowrap_mode = 3
 [node name="lisätiedot" type="Button" parent="."]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_ljvtt")
 theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxFlat_3cdc0")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3cdc0")

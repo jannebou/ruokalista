@@ -27,11 +27,12 @@ var viikonpäivät : Array[String] = [
 
 func _ready() -> void:
 	tänään_on = Time.get_datetime_dict_from_system()
-	frami_b.button_pressed = true
 	
+	frami_b.button_pressed = true
 	
 	frami_b.pressed.connect(hae_ja_tee_lista.bind(FRAMI))
 	kampus_b.pressed.connect(hae_ja_tee_lista.bind(KAMPUS))
+	
 	
 	hae_ja_tee_lista(FRAMI)
 

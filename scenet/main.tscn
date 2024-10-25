@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://ccm1lphk13xji"]
 
-[ext_resource type="Script" path="res://scripts/main.gd" id="1_00d81"]
-[ext_resource type="PackedScene" uid="uid://bgwiquqj8a5c8" path="res://scenet/pv_lista.tscn" id="2_3fht3"]
-[ext_resource type="FontFile" uid="uid://dofsl1ge14fml" path="res://fonts/Poppins/Poppins-Regular.ttf" id="2_7o1dc"]
-[ext_resource type="LabelSettings" uid="uid://dkk2kahvxwl2e" path="res://resources/ruoka.tres" id="2_fcrk3"]
-[ext_resource type="Theme" uid="uid://cwkbb2k07mgqd" path="res://resources/teema.tres" id="5_m5lej"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_5q6lg"]
+[ext_resource type="PackedScene" uid="uid://bgwiquqj8a5c8" path="res://scenet/pv_lista.tscn" id="2_5apwf"]
+[ext_resource type="FontFile" uid="uid://dofsl1ge14fml" path="res://fonts/Poppins/Poppins-Regular.ttf" id="3_j46qn"]
+[ext_resource type="LabelSettings" uid="uid://dkk2kahvxwl2e" path="res://resources/ruoka.tres" id="4_40835"]
+[ext_resource type="Theme" uid="uid://cwkbb2k07mgqd" path="res://resources/teema.tres" id="5_505en"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0oqpu"]
 bg_color = Color(0.329412, 0.141176, 0.501961, 1)
@@ -30,9 +30,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_00d81")
+script = ExtResource("1_5q6lg")
 header = NodePath("Label")
-lista = ExtResource("2_3fht3")
+lista = ExtResource("2_5apwf")
 ruokalista_container = NodePath("PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/container")
 haetaan_l = NodePath("PanelContainer/MarginContainer/haetaan_dataa")
 frami_b = NodePath("MarginContainer/Footer/HBoxContainer/frami")
@@ -40,11 +40,13 @@ kampus_b = NodePath("MarginContainer/Footer/HBoxContainer/kampus")
 
 [node name="Label" type="Label" parent="."]
 z_index = 1
-layout_mode = 2
-offset_right = 1080.0
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 150.0
+grow_horizontal = 2
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("2_7o1dc")
+theme_override_fonts/font = ExtResource("3_j46qn")
 theme_override_font_sizes/font_size = 80
 theme_override_styles/normal = SubResource("StyleBoxFlat_0oqpu")
 text = "Ruokalista"
@@ -54,10 +56,13 @@ autowrap_mode = 3
 
 [node name="PanelContainer2" type="PanelContainer" parent="."]
 z_index = 1
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_top = 150.0
-offset_right = 1080.0
-offset_bottom = 2400.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ao1kj")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
@@ -78,7 +83,7 @@ theme_override_constants/margin_right = 50
 [node name="haetaan_dataa" type="Label" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 text = "Haetaan ruokalistaa"
-label_settings = ExtResource("2_fcrk3")
+label_settings = ExtResource("4_40835")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -135,7 +140,7 @@ layout_mode = 2
 [node name="frami" type="Button" parent="MarginContainer/Footer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("5_m5lej")
+theme = ExtResource("5_505en")
 toggle_mode = true
 text = "Frami F"
 
@@ -146,6 +151,6 @@ layout_mode = 2
 [node name="kampus" type="Button" parent="MarginContainer/Footer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("5_m5lej")
+theme = ExtResource("5_505en")
 theme_override_font_sizes/font_size = 50
 text = "Kampus"
