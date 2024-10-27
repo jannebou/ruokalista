@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://c61a4wjhfo8ww"]
+
+[ext_resource type="Script" path="res://scripts/ruoka.gd" id="1_5ve81"]
+[ext_resource type="LabelSettings" uid="uid://bgph1nngxb4fe" path="res://resources/h2.tres" id="2_muetl"]
+[ext_resource type="LabelSettings" uid="uid://dkk2kahvxwl2e" path="res://resources/ruoka.tres" id="3_il8n4"]
+[ext_resource type="LabelSettings" uid="uid://chesb0auatodl" path="res://resources/p.tres" id="4_d16el"]
+
+[node name="ruoka" type="MarginContainer" node_paths=PackedStringArray("title_l", "ruoka_l", "dietti_l", "hinta_l")]
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+script = ExtResource("1_5ve81")
+title_l = NodePath("pääruoka/title")
+ruoka_l = NodePath("pääruoka/ruoka_nimi")
+dietti_l = NodePath("pääruoka/HBoxContainer/dietti")
+hinta_l = NodePath("pääruoka/HBoxContainer/hinta")
+
+[node name="pääruoka" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="title" type="Label" parent="pääruoka"]
+layout_mode = 2
+text = "Pääruoka"
+label_settings = ExtResource("2_muetl")
+
+[node name="ruoka_nimi" type="Label" parent="pääruoka"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+label_settings = ExtResource("3_il8n4")
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="pääruoka"]
+layout_mode = 2
+
+[node name="hinta" type="Label" parent="pääruoka/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+label_settings = ExtResource("4_d16el")
+vertical_alignment = 1
+
+[node name="dietti" type="Label" parent="pääruoka/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+label_settings = ExtResource("4_d16el")
+horizontal_alignment = 2
+vertical_alignment = 1

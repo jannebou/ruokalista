@@ -1,11 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bgwiquqj8a5c8"]
+[gd_scene load_steps=7 format=3 uid="uid://bgwiquqj8a5c8"]
 
 [ext_resource type="Script" path="res://scripts/pv_lista.gd" id="1_j5t1g"]
 [ext_resource type="Theme" uid="uid://cwkbb2k07mgqd" path="res://resources/teema.tres" id="2_audni"]
 [ext_resource type="FontFile" uid="uid://dofsl1ge14fml" path="res://fonts/Poppins/Poppins-Regular.ttf" id="2_ljvtt"]
-[ext_resource type="LabelSettings" uid="uid://bgph1nngxb4fe" path="res://resources/h2.tres" id="3_768vv"]
-[ext_resource type="LabelSettings" uid="uid://dkk2kahvxwl2e" path="res://resources/ruoka.tres" id="4_k4o4h"]
-[ext_resource type="LabelSettings" uid="uid://chesb0auatodl" path="res://resources/p.tres" id="5_pixsp"]
 [ext_resource type="FontFile" uid="uid://jw0yyell0kyc" path="res://fonts/Poppins-Regular.ttf" id="6_sutki"]
 [ext_resource type="FontFile" uid="uid://81auo2v5o1aa" path="res://fonts/Poppins/Poppins-Bold.ttf" id="7_vwbcl"]
 
@@ -18,7 +15,7 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
-[node name="pv_lista" type="VBoxContainer" node_paths=PackedStringArray("header_b", "lisätiedot_b", "visibility_list", "pääruoka_l", "pääruoka_diet_l", "vegaani_l", "vegaani_diet_l", "keitto_l", "keitto_diet_l", "patonki_l", "patonki_diet_l", "jälkiruoka_l", "jälkiruoka_diet_l", "lisätieto_l", "hinta_l")]
+[node name="pv_lista" type="VBoxContainer" node_paths=PackedStringArray("header_b", "lisätiedot_b", "container", "lisätieto_l", "visibility_list")]
 clip_contents = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,19 +25,9 @@ grow_vertical = 2
 script = ExtResource("1_j5t1g")
 header_b = NodePath("header")
 "lisätiedot_b" = NodePath("lisätiedot_b/lisätiedot")
-visibility_list = [NodePath("pääruoka"), NodePath("vegaani"), NodePath("keitto"), NodePath("patonki"), NodePath("jälkiruoka"), NodePath("lisätiedot_b/lisätiedot"), NodePath("lisätiedot/lisätieto"), NodePath("hinta")]
-"pääruoka_l" = NodePath("pääruoka/pääruoka/pääruoka")
-"pääruoka_diet_l" = NodePath("pääruoka/pääruoka/dietti")
-vegaani_l = NodePath("vegaani/VBoxContainer/vegaani")
-vegaani_diet_l = NodePath("vegaani/VBoxContainer/dietti2")
-keitto_l = NodePath("keitto/VBoxContainer/keitto")
-keitto_diet_l = NodePath("keitto/VBoxContainer/dietti3")
-patonki_l = NodePath("patonki/VBoxContainer/patonki")
-patonki_diet_l = NodePath("patonki/VBoxContainer/dietti4")
-"jälkiruoka_l" = NodePath("jälkiruoka/VBoxContainer/jälkkäri")
-"jälkiruoka_diet_l" = NodePath("jälkiruoka/VBoxContainer/dietti5")
+container = NodePath("VBoxContainer")
 "lisätieto_l" = NodePath("lisätiedot/lisätieto")
-hinta_l = NodePath("hinta/hinta")
+visibility_list = [NodePath("lisätiedot_b/lisätiedot"), NodePath("lisätiedot/lisätieto"), NodePath("VBoxContainer")]
 
 [node name="header" type="Button" parent="."]
 layout_mode = 2
@@ -48,171 +35,8 @@ theme = ExtResource("2_audni")
 theme_override_font_sizes/font_size = 100
 text = "nappi"
 
-[node name="hinta" type="MarginContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_right = 25
-
-[node name="hinta" type="Label" parent="hinta"]
-layout_mode = 2
-label_settings = ExtResource("3_768vv")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="pääruoka" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="pääruoka" type="VBoxContainer" parent="pääruoka"]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="pääruoka/pääruoka"]
-layout_mode = 2
-text = "Pääruoka"
-label_settings = ExtResource("3_768vv")
-
-[node name="pääruoka" type="Label" parent="pääruoka/pääruoka"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("4_k4o4h")
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="dietti" type="Label" parent="pääruoka/pääruoka"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("5_pixsp")
-vertical_alignment = 1
-
-[node name="vegaani" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="VBoxContainer" type="VBoxContainer" parent="vegaani"]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="vegaani/VBoxContainer"]
-layout_mode = 2
-text = "Vegaanilounas"
-label_settings = ExtResource("3_768vv")
-
-[node name="vegaani" type="Label" parent="vegaani/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("4_k4o4h")
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="dietti2" type="Label" parent="vegaani/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("5_pixsp")
-vertical_alignment = 1
-
-[node name="keitto" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="VBoxContainer" type="VBoxContainer" parent="keitto"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="keitto/VBoxContainer"]
-layout_mode = 2
-text = "Keittolounas "
-label_settings = ExtResource("3_768vv")
-
-[node name="keitto" type="Label" parent="keitto/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("4_k4o4h")
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="dietti3" type="Label" parent="keitto/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("5_pixsp")
-vertical_alignment = 1
-
-[node name="patonki" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="VBoxContainer" type="VBoxContainer" parent="patonki"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="patonki/VBoxContainer"]
-layout_mode = 2
-text = "Patonki"
-label_settings = ExtResource("3_768vv")
-
-[node name="patonki" type="Label" parent="patonki/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("4_k4o4h")
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="dietti4" type="Label" parent="patonki/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("5_pixsp")
-vertical_alignment = 1
-
-[node name="jälkiruoka" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="VBoxContainer" type="VBoxContainer" parent="jälkiruoka"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="jälkiruoka/VBoxContainer"]
-layout_mode = 2
-text = "Jälkiruoka"
-label_settings = ExtResource("3_768vv")
-
-[node name="jälkkäri" type="Label" parent="jälkiruoka/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-label_settings = ExtResource("4_k4o4h")
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="dietti5" type="Label" parent="jälkiruoka/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-label_settings = ExtResource("5_pixsp")
-vertical_alignment = 1
 
 [node name="lisätiedot_b" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -226,7 +50,7 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_3cdc0")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3cdc0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_3cdc0")
 theme_override_styles/normal = SubResource("StyleBoxFlat_3cdc0")
-text = "Lisätiedot ja allergiat"
+text = "Lisätiedot ja allergeenit"
 
 [node name="lisätiedot" type="MarginContainer" parent="."]
 layout_mode = 2

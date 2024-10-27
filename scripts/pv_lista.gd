@@ -3,22 +3,11 @@ class_name Lista
 
 @export var header_b : Button
 @export var lisätiedot_b : Button
-
+@export var container : VBoxContainer
+@export var lisätieto_l : RichTextLabel
 @export var visibility_list : Array[Control]
 
-@export var pääruoka_l : Label
-@export var pääruoka_diet_l : Label
-@export var vegaani_l : Label
-@export var vegaani_diet_l : Label
-@export var keitto_l : Label
-@export var keitto_diet_l : Label
-@export var patonki_l : Label
-@export var patonki_diet_l : Label
-@export var jälkiruoka_l : Label
-@export var jälkiruoka_diet_l : Label
-@export var lisätieto_l : RichTextLabel
-@export var hinta_l : Label
-
+var _ruoka : PackedScene = preload("res://scenet/ruoka.tscn")
 var lisätiedot : Dictionary
 var lista_auki : bool = true
 var päivä : String
@@ -33,115 +22,51 @@ func _ready() -> void:
 			muuta_ruokalistan_näkyvyys()
 			close_other.emit(lisätiedot.date))
 	
-	
 	lisätiedot_b.pressed.connect(näytä_lisätiedot)
 
 func setup(lista : Dictionary, open : bool) -> void:
 	päivä = lista.date
 	header_b.text = "%s"  %  lista.date
-	
-	hinta_l.text = lista.courses["2"].price
-	
 	lisätiedot = lista
 	
-	match Main.language:
-		"FI":
-			if lista.courses.has("1"):
-				vegaani_l.set_text(lista.courses["1"].title_fi)
-				if lista.courses["1"].dietcodes != "":
-					vegaani_diet_l.show()
-					vegaani_diet_l.text = lista.courses["1"].dietcodes
-				
-				
-			if lista.courses.has("2"):
-				pääruoka_l.set_text(lista.courses["2"].title_fi)
-				if lista.courses["2"].dietcodes != "":
-					pääruoka_diet_l.show()
-					pääruoka_diet_l.text = lista.courses["2"].dietcodes
-				
-
-			if lista.courses.has("3"):
-				keitto_l.set_text(lista.courses["3"].title_fi)
-				if lista.courses["3"].dietcodes != "":
-					keitto_diet_l.show()
-					keitto_diet_l.text = lista.courses["3"].dietcodes
-			
-			if lista.courses.has("4"):
-				patonki_l.set_text(lista.courses["4"].title_fi)
-				if lista.courses["4"].dietcodes != "":
-					patonki_diet_l.show()
-					patonki_diet_l.text = lista.courses["4"].dietcodes
-				
-			if lista.courses.has("5"):
-				jälkiruoka_l.set_text(lista.courses["5"].title_fi)
-				if lista.courses["5"].dietcodes != "":
-					jälkiruoka_diet_l.show()
-					jälkiruoka_diet_l.text = lista.courses["5"].dietcodes
-			
-			# jos listasta löytyy "6", on kampus valittuna
-			if lista.courses.has("6"):
-				patonki_l.set_text(lista.courses["5"].title_fi)
-				if lista.courses["5"].dietcodes != "":
-					patonki_diet_l.show()
-					patonki_diet_l.text = lista.courses["5"].dietcodes
-					
-				jälkiruoka_l.set_text(lista.courses["6"].title_fi)
-				if lista.courses["6"].dietcodes != "":
-					jälkiruoka_diet_l.show()
-					jälkiruoka_diet_l.text = lista.courses["6"].dietcodes
-					
-		"EN":
-			if lista.courses.has("1"):
-				vegaani_l.set_text(lista.courses["1"].title_en)
-			if lista.courses["1"].dietcodes != "":
-					vegaani_diet_l.show()
-					vegaani_diet_l.text = lista.courses["1"].dietcodes
-				
-				
-			if lista.courses.has("2"):
-				pääruoka_l.set_text(lista.courses["2"].title_en)
-				if lista.courses["2"].dietcodes != "":
-					pääruoka_diet_l.show()
-					pääruoka_diet_l.text = lista.courses["2"].dietcodes
-				
-
-			if lista.courses.has("3"):
-				keitto_l.set_text(lista.courses["3"].title_en)
-				if lista.courses["3"].dietcodes != "":
-					keitto_diet_l.show()
-					keitto_diet_l.text = lista.courses["3"].dietcodes
-			
-			if lista.courses.has("4"):
-				patonki_l.set_text(lista.courses["4"].title_en)
-				if lista.courses["4"].dietcodes != "":
-					patonki_diet_l.show()
-					patonki_diet_l.text = lista.courses["4"].dietcodes
-				
-			if lista.courses.has("5"):
-				jälkiruoka_l.set_text(lista.courses["5"].title_en)
-				if lista.courses["5"].dietcodes != "":
-					jälkiruoka_diet_l.show()
-					jälkiruoka_diet_l.text = lista.courses["5"].dietcodes
-			
-			# jos listasta löytyy "6", on kampus valittuna
-			if lista.courses.has("6"):
-				patonki_l.set_text(lista.courses["5"].title_en)
-				if lista.courses["5"].dietcodes != "":
-					patonki_diet_l.show()
-					patonki_diet_l.text = lista.courses["5"].dietcodes
-					
-				jälkiruoka_l.set_text(lista.courses["6"].title_en)
-				if lista.courses["6"].dietcodes != "":
-					jälkiruoka_diet_l.show()
-					jälkiruoka_diet_l.text = lista.courses["6"].dietcodes
-
+	kirjaa()
+	
 	if open:
 		muuta_ruokalistan_näkyvyys()
-	
+
+
+func kirjaa() -> void:
+	for course : String in lisätiedot.courses:
+		var ruoka : Ruoka = _ruoka.instantiate()
+		var category : String = ""
+		var title : String = ""
+		var diet : String = ""
+		var hinta : String = ""
+		var kieli : String = ""
+		
+		match Main.language:
+			"FI":
+				kieli = "title_fi"
+			"EN":
+				kieli = "title_en"
+		
+		title = lisätiedot.courses[course][kieli]
+		hinta = lisätiedot.courses[course].price
+		
+		if lisätiedot.courses[course].has("category"):
+			category = lisätiedot.courses[course].category
+			
+		if lisätiedot.courses[course].has("dietcodes"):
+			diet = lisätiedot.courses[course].dietcodes
+
+		container.add_child(ruoka)
+
+		ruoka.aseta_data(title, hinta, diet, category)
+
+
 func näytä_lisätiedot() -> void:
 	if lisätieto_l.text != "":
 		lisätieto_l.text = ""
-		
 	else:
 		for i in lisätiedot.courses:
 			if lisätiedot.courses[i].additionalDietInfo.has("allergens"):

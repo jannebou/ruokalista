@@ -17,6 +17,8 @@ var tänään_on : Dictionary
 var valittu_puoli : String
 static var language : String = "FI"
 
+var ruokalista : Dictionary
+
 var viikonpäivät : Array[String] = [
 	"Maanantai",
 	"Tiistai",
@@ -32,7 +34,9 @@ var viikonpäivät : Array[String] = [
 func _ready() -> void:
 	tänään_on = Time.get_datetime_dict_from_system()
 	
+	
 	frami_b.button_pressed = true
+	
 	frami_b.pressed.connect(hae_ja_tee_lista.bind(FRAMI))
 	kampus_b.pressed.connect(hae_ja_tee_lista.bind(KAMPUS))
 	
@@ -45,33 +49,39 @@ func _ready() -> void:
 			lang_b.text = "FI"
 			
 		lang_b.release_focus()
-		hae_ja_tee_lista(valittu_puoli)
+		if ruokalista.is_empty():
+			hae_ja_tee_lista(valittu_puoli)
+		else:
+			tyhjää_lista()
+			tee_lista()
 			)
-	
+			
 	hae_ja_tee_lista(FRAMI)
+
 
 
 ## Haetaan data ja tehdään lista
 func hae_ja_tee_lista(puoli : String) -> void:
+	
 	match puoli:
 		FRAMI:
-			kampus_b.button_pressed = false
 			frami_b.grab_focus()
+			kampus_b.button_pressed = false
 			valittu_puoli = FRAMI
 		KAMPUS:
 			kampus_b.grab_focus()
 			frami_b.button_pressed = false
 			valittu_puoli = KAMPUS
-			
+	
+	
 	tyhjää_lista()
 	
-	haetaan_l.show()
-	var ruokalista : Dictionary = await hae_ruokalista(puoli) 
-	haetaan_l.hide()
+	ruokalista = await hae_ruokalista(puoli) 
 	
+	# ruokalistan headeriin päivämäärä 
 	header.text = "Ruokalista %s" % ruokalista.timeperiod
 	
-	tee_lista(ruokalista)
+	tee_lista()
 	
 	
 ## tyhjätään lista
@@ -83,24 +93,28 @@ func tyhjää_lista() -> void:
 			auki_oleva_lista = i.päivä
 		i.queue_free()
 
+
+func alusta_lista() -> Lista:
+	var l : Lista = lista.instantiate()
+	l.add_to_group("Lista")
+	l.close_other.connect(sulje_listat)
+	return l
+
 ## rakennetaan ruokalista
-func tee_lista(ruokalista : Dictionary) -> void:
+func tee_lista() -> void:
 	var id : int = 0
 	
 	for päivän_lista in ruokalista.mealdates:
-		var _ruokalista : Lista = lista.instantiate()
 		
-		#listan nimi, helpottaa debug
-		_ruokalista.add_to_group("Lista")
+		var _ruokalista : Lista = alusta_lista()
+		
 		_ruokalista.name = päivän_lista.date
-		_ruokalista.close_other.connect(sulje_listat)
 		
 		# Avataan tämän päivän lista 
-		if päivän_lista.date == viikonpäivät[tänään_on.weekday - 1] or\
-		auki_oleva_lista == päivän_lista.date:
+		if päivän_lista.date == viikonpäivät[tänään_on.weekday - 1]:
 			_ruokalista.setup(päivän_lista, true)
-			#scroll.ensure_control_visible(_ruokalista)
-		else:
+			
+		else: 
 			_ruokalista.setup(päivän_lista, false)
 		
 		#lisätään ja siirretään listaa
@@ -114,12 +128,7 @@ func tee_lista(ruokalista : Dictionary) -> void:
 func sulje_listat(auki_jäävä : String) -> void:
 	for list : Lista in get_tree().get_nodes_in_group("Lista"):
 		if list.päivä == auki_jäävä:
-			await get_tree().create_timer(0.05).timeout
-			#match list.päivä:
-				#"Maanantai":
-					#pass
-				#"Perjantai":
-					#scroll.scroll_vertical = 593
+			await get_tree().physics_frame
 			scroll.ensure_control_visible(list)
 		else:	
 			list.muuta_ruokalistan_näkyvyys(0)
@@ -127,6 +136,7 @@ func sulje_listat(auki_jäävä : String) -> void:
 ## haetaan ruokalista sodexon palvelimelta
 var vastaus : Dictionary
 func hae_ruokalista(url : String) -> Dictionary:
+	haetaan_l.show()
 	var http : HTTPRequest = HTTPRequest.new()
 	add_child(http)
 	http.request_completed.connect(
@@ -136,4 +146,5 @@ func hae_ruokalista(url : String) -> Dictionary:
 	http.request(url)
 	await http.request_completed
 	http.queue_free()
+	haetaan_l.hide()
 	return vastaus
