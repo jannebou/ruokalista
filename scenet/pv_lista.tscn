@@ -31,6 +31,7 @@ visibility_list = [NodePath("lisätiedot_b/lisätiedot"), NodePath("lisätiedot/
 
 [node name="header" type="Button" parent="."]
 layout_mode = 2
+mouse_filter = 1
 theme = ExtResource("2_audni")
 theme_override_font_sizes/font_size = 100
 text = "nappi"
@@ -43,6 +44,7 @@ layout_mode = 2
 
 [node name="lisätiedot" type="Button" parent="lisätiedot_b"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_ljvtt")
 theme_override_font_sizes/font_size = 50
